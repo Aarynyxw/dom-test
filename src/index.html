@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dom-test</title>
+    <title>Document</title>
 </head>
-
 <body>
     <div id="test">
-        <div class="red">1</div>
-        <div class="red">2</div>
-        <div class="red">3</div>
+        <div class="red"></div>
     </div>
+    <script>
+        window.dom = {
+    find(selector,scope){
+        return (scope||document).querySelectorAll(selector)
+    },
+    style(node,name,value){
+        if(arguments.length===3){
+            node.style[name]=value
+        }else if(arguments.length===2){
+            if(typeof name==="string"){
+                return node.style[name]
+            }else if(typeof name ===Object){
+               for(let key in name){
+                node,style[key]=name[key]
+               }
+            }
+        }
+    },
+    each(nodeList,fn){
+        for(let i=0;i<nodeList.length;i++){
+            fn.call(null,nodeList[i])
+        }
+    }
+}
 
-    <script src="main.js"></script>
+const div = dom.find('#test>.red')[0] // 获取对应的元素
+console.log(div);
+dom.style(div, 'color', 'red') // 设置 div.style.color
+const divList = dom.find('.red') // 获取多个 div.red 元素
+console.log(divList);
+dom.each(divList, (n)=> console.log(n)) // 遍历 divList 里的所有元素
+    </script>
 </body>
-
 </html>
